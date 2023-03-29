@@ -9,23 +9,38 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+import environ
+
+env = environ.Env(
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG=(bool, False),  # set casting, default value
+    TESTING=(bool, False),
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT = BASE_DIR.parent.parent
 
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(ROOT, ".env"))
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# False if not in os.environ because of casting above
+DEBUG = env("DEBUG")
+TESTING = env("TESTING")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-yn3$c@^eewf_6-3q$dzwt&h&kojozqm19qf!28u1a(5+=n31fu"
+SECRET_KEY = env("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 
 # Application definition
@@ -37,6 +52,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # third-party apps
+    "rest_framework",
+    # local apps
 ]
 
 MIDDLEWARE = [
@@ -68,17 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 
 # Password validation

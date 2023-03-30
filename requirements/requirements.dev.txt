@@ -21,6 +21,7 @@ fakeredis[lua]==1.8.1
 
 
 # linting
+pre-commit==3.2.1
 black==22.3.0
 flake8==4.0.1
 flake8-print==5.0.0

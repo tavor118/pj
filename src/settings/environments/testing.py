@@ -1,4 +1,4 @@
-from config.settings.components.drf import REST_FRAMEWORK
+from src.settings.components.drf import REST_FRAMEWORK
 
 
 TESTING = True

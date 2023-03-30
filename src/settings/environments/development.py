@@ -1,4 +1,4 @@
-from config.settings.components.base import INSTALLED_APPS, MIDDLEWARE
+from src.settings.components.base import INSTALLED_APPS, MIDDLEWARE
 
 INSTALLED_APPS += (
     "django_extensions",

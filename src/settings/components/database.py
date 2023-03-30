@@ -1,7 +1,7 @@
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-from config.settings.components.base import env
+from src.settings.components.base import env
 
 DATABASES = {
     "default": {

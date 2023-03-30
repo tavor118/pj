@@ -1,6 +1,5 @@
 from src.settings.components.drf import REST_FRAMEWORK
 
-
 TESTING = True
 
 # to not specify format or content_type in  tests

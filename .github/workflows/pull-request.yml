@@ -1,0 +1,15 @@
+name: Add labels
+on: [pull_request]
+
+jobs:
+  open-pull-requests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'head_ref - ${{ github.head_ref }}'
+
+      - name: add PR label
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        if: contains(fromJson('["main", "dev"]'), github.base_ref)
+        with:
+          add-labels: '${{ github.base_ref }}'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

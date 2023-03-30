@@ -1,0 +1,17 @@
+name: Git history
+on: pull_request
+jobs:
+  git-history:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 25
+    - name: "No fixup! commits"
+      run: |
+        git log --oneline HEAD ^${{ github.event.pull_request.base.sha }} --grep '^fixup!' -- > log
+        if [ -s log ]; then
+            echo 'fixup! commits detected:'
+            cat log
+            exit 1
+        fi

@@ -5,7 +5,7 @@ from src.settings.components.base import env
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env("DB_NAME", default="pythonjunior"),
         "USER": env("DB_USER", default="postgres"),
         "PASSWORD": env("DB_PASSWORD", default=""),

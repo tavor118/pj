@@ -21,9 +21,11 @@ django_stubs_ext.monkeypatch()
 ENV = os.environ.get("DJANGO_ENV", "development")
 
 base_settings = (
+    "components/auth.py",
     "components/base.py",
     "components/database.py",
     "components/drf.py",
+    "components/email.py",
     "components/logging.py",
     # Select the right env:
     "environments/{0}.py".format(ENV),

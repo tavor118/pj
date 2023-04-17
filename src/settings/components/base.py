@@ -63,9 +63,12 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "django_filters",
+    "mptt",  # nested models
+    "django_mptt_admin",  # nested models admin
     # local apps
     "src.apps.authentication.apps.AuthConfig",
     "src.apps.core.apps.CoreConfig",
+    "src.apps.questions.apps.QuestionsConfig",
     "src.apps.users.apps.UsersConfig",
 ]
 

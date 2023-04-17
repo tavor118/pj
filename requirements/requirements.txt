@@ -11,9 +11,12 @@ dj-rest-auth[with_social]==3.0.0  # auth
 djangorestframework-simplejwt==5.2.2  # auth
 django-environ==0.10.0  # settings
 django-split-settings==1.2.0  # settings
+django-anymail[mailgun]==9.1  # email
+django-mptt==0.14.0  # nested models
+django-mptt-admin==2.5.0  # nested models
+
 python-redis-lock[django]==4.0.0  # lock resourses
 drf-spectacular==0.26.1  # swagger
-django-anymail[mailgun]==9.1  # email
 sentry-sdk==1.19.1  # logging
 
 django-stubs-ext==0.8.0  # typing

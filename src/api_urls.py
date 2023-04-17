@@ -11,10 +11,13 @@ from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenVerifyView
 
+from src.apps.questions.views import CategoryViewSet, QuestionViewSet
 from src.apps.users.views import UserViewSet
 
 router = DefaultRouter()
+router.register("categories", CategoryViewSet)
 router.register("users", UserViewSet)
+router.register("questions", QuestionViewSet)
 
 urlpatterns = [
     # AUTHENTICATION

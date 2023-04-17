@@ -3,10 +3,15 @@ from django.contrib.auth import get_user_model
 from pytest import fixture
 from rest_framework.test import APIClient
 
+from src.apps.questions.models import Category, Question
+
 User = get_user_model()
 
 
-# Model fixtures
+# MODEL FIXTURES
+
+
+# Users
 @fixture
 def user_email() -> str:
     return "example@gmail.com"
@@ -41,7 +46,44 @@ def user(user_email: str, username: str, user_password: str) -> User:
     return user
 
 
-# Client fixtures
+# Questions
+@fixture
+def parent_category() -> Category:
+    parent_category = Category.objects.create(title="Python", position=1)
+    return parent_category
+
+
+@fixture
+def child_category(parent_category: Category) -> Category:
+    child_category = Category.objects.create(
+        parent=parent_category, title="Core", position=1
+    )
+    return child_category
+
+
+@fixture
+def question(child_category: Category) -> Question:
+    question = Question.objects.create(
+        category=child_category,
+        title="What is Python?",
+        content="Python is a programming language.",
+        position=10,
+    )
+    return question
+
+
+@fixture
+def question2(child_category: Category) -> Question:
+    question = Question.objects.create(
+        category=child_category,
+        title="Python Data Types",
+        content="Python have mutable and immutable collection data types.",
+        position=20,
+    )
+    return question
+
+
+# CLIENT FIXTURES
 @fixture
 def client() -> APIClient:
     return APIClient()

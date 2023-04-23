@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "src.apps.authentication.apps.AuthConfig",
     "src.apps.core.apps.CoreConfig",
     "src.apps.questions.apps.QuestionsConfig",
+    "src.apps.social.apps.SocialConfig",
     "src.apps.users.apps.UsersConfig",
 ]
 

@@ -3,7 +3,7 @@ profile = "black"
 combine_as_imports = true
 
 [tool.black]
-line-length = 90
+line-length = 88
 include = '\.pyi?$'
 exclude = '''
 /(

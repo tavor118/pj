@@ -1,4 +1,10 @@
-from rest_framework.fields import ReadOnlyField, SerializerMethodField
+from rest_framework.fields import (
+    BooleanField,
+    CharField,
+    IntegerField,
+    ReadOnlyField,
+    SerializerMethodField,
+)
 from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
@@ -11,6 +17,7 @@ class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "title", "slug", "position"]
+        read_only_fields = [f for f in fields]
 
     def get_fields(self):
         fields = super().get_fields()
@@ -28,6 +35,7 @@ class QuestionCategorySerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "title", "parent_title", "url"]
+        read_only_fields = [f for f in fields]
 
     def get_url(self, obj):
         request = self.context.get("request")
@@ -46,18 +54,32 @@ class QuestionSerializer(ModelSerializer):
     category = QuestionCategorySerializer(read_only=True)
     links = ResourceLinkSerializer(many=True, read_only=True)
 
+    like_count = IntegerField()
+    dislike_count = IntegerField()
+
+    bookmark_count = IntegerField()
+
+    like_type = CharField(allow_null=True, default=None)
+    is_bookmarked = BooleanField(default=False)
+
     class Meta:
         model = Question
         fields = [
             "id",
+            "url",
             "title",
             "slug",
             "content",
             "position",
-            "links",
             "category",
-            "url",
+            "links",
+            "like_count",
+            "dislike_count",
+            "bookmark_count",
+            "like_type",
+            "is_bookmarked",
         ]
+        read_only_fields = [f for f in fields]
 
     def get_url(self, obj):
         request = self.context.get("request")

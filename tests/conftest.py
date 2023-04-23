@@ -4,6 +4,7 @@ from pytest import fixture
 from rest_framework.test import APIClient
 
 from src.apps.questions.models import Category, Question
+from src.apps.social.models import Bookmark, Like, LikeType
 
 User = get_user_model()
 
@@ -11,7 +12,9 @@ User = get_user_model()
 # MODEL FIXTURES
 
 
-# Users
+# Users app
+
+
 @fixture
 def user_email() -> str:
     return "example@gmail.com"
@@ -42,11 +45,30 @@ def user(user_email: str, username: str, user_password: str) -> User:
         username=username,
         password=user_password,
     )
-    EmailAddress.objects.create(user=user, email=user_email, primary=True, verified=True)
+    EmailAddress.objects.create(
+        user=user, email=user_email, primary=True, verified=True
+    )
     return user
 
 
-# Questions
+@fixture
+def user2(user_password: str) -> User:
+    user_email = "example2@gmail.com"
+    username = "user2"
+    user = User.objects.create_user(
+        email=user_email,
+        username=username,
+        password=user_password,
+    )
+    EmailAddress.objects.create(
+        user=user, email=user_email, primary=True, verified=True
+    )
+    return user
+
+
+# Questions app
+
+
 @fixture
 def parent_category() -> Category:
     parent_category = Category.objects.create(title="Python", position=1)
@@ -81,6 +103,21 @@ def question2(child_category: Category) -> Question:
         position=20,
     )
     return question
+
+
+# Social app
+
+
+@fixture
+def like(user: User, question: Question) -> Like:
+    like = Like.objects.create(user=user, question=question, like_type=LikeType.LIKE)
+    return like
+
+
+@fixture
+def bookmark(user: User, question: Question) -> Like:
+    bookmark = Bookmark.objects.create(user=user, question=question)
+    return bookmark
 
 
 # CLIENT FIXTURES

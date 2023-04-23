@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db.models import (
     CASCADE,
     CharField,
@@ -5,7 +6,6 @@ from django.db.models import (
     Model,
     PositiveIntegerField,
     SlugField,
-    TextChoices,
     TextField,
     URLField,
 )
@@ -13,6 +13,11 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
+
+from src.apps.core.models import QuestionLevel
+from src.apps.questions.managers import QuestionManager
+
+User = get_user_model()
 
 
 class Category(MPTTModel):
@@ -53,12 +58,6 @@ class Category(MPTTModel):
         super().save(*args, **kwargs)
 
 
-class QuestionLevel(TextChoices):
-    JUNIOR = "junior"
-    MIDDLE = "middle"
-    SENIOR = "senior"
-
-
 class Question(Model):
     title = CharField(max_length=255)
     slug = SlugField(max_length=255)
@@ -72,6 +71,8 @@ class Question(Model):
         choices=QuestionLevel.choices,
         default=QuestionLevel.JUNIOR,
     )
+
+    objects = QuestionManager()
 
     def __str__(self) -> str:  # pragma: no cover
         return f"<Question [{self.id}]: {self.title} #{self.position}>"

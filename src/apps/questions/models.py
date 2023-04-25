@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import (
     CASCADE,
     CharField,
+    DateTimeField,
     ForeignKey,
     Model,
     PositiveIntegerField,
@@ -9,6 +10,7 @@ from django.db.models import (
     TextField,
     URLField,
 )
+from django.utils import timezone
 from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.managers import TreeManager
@@ -71,6 +73,9 @@ class Question(Model):
         choices=QuestionLevel.choices,
         default=QuestionLevel.JUNIOR,
     )
+
+    created_at = DateTimeField(default=timezone.now)
+    updated_at = DateTimeField(default=timezone.now)
 
     objects = QuestionManager()
 

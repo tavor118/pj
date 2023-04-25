@@ -13,8 +13,6 @@ User = get_user_model()
 
 
 # Users app
-
-
 @fixture
 def user_email() -> str:
     return "example@gmail.com"
@@ -67,8 +65,6 @@ def user2(user_password: str) -> User:
 
 
 # Questions app
-
-
 @fixture
 def parent_category() -> Category:
     parent_category = Category.objects.create(title="Python", position=1)
@@ -106,8 +102,6 @@ def question2(child_category: Category) -> Question:
 
 
 # Social app
-
-
 @fixture
 def like(user: User, question: Question) -> Like:
     like = Like.objects.create(user=user, question=question, like_type=LikeType.LIKE)

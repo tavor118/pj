@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import CASCADE, CharField, DateTimeField, ForeignKey, Model
 from django.utils import timezone
 
 from src.apps.core.models import LikeType
@@ -7,15 +8,11 @@ from src.apps.core.models import LikeType
 User = get_user_model()
 
 
-class Like(models.Model):
-    like_type = models.CharField(
-        max_length=7, choices=LikeType.choices, default=LikeType.LIKE
-    )
+class Like(Model):
+    like_type = CharField(max_length=7, choices=LikeType.choices, default=LikeType.LIKE)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(
-        "questions.Question", on_delete=models.CASCADE, related_name="likes"
-    )
+    user = ForeignKey(User, on_delete=CASCADE)
+    question = ForeignKey("questions.Question", on_delete=CASCADE, related_name="likes")
 
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -29,13 +26,13 @@ class Like(models.Model):
         unique_together = ("user", "question")
 
 
-class Bookmark(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(
-        "questions.Question", on_delete=models.CASCADE, related_name="bookmarks"
+class Bookmark(Model):
+    user = ForeignKey(User, on_delete=CASCADE)
+    question = ForeignKey(
+        "questions.Question", on_delete=CASCADE, related_name="bookmarks"
     )
 
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:  # pragma: no cover
         return (

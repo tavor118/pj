@@ -1,10 +1,12 @@
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from src.apps.questions.filters import CategoryFilter, QuestionFilter
 from src.apps.questions.models import Category, Question
 from src.apps.questions.serializers import CategorySerializer, QuestionSerializer
 from src.apps.social.models import LikeType
@@ -14,6 +16,10 @@ from src.apps.social.services import BookmarkService, LikeService
 class CategoryViewSet(ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    filterset_class = CategoryFilter
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["id", "title", "position"]
 
     def get_queryset(self):
         if self.action == "list":
@@ -27,6 +33,10 @@ class CategoryViewSet(ReadOnlyModelViewSet):
 class QuestionViewSet(ReadOnlyModelViewSet):
     queryset = Question.objects.get_question_list()
     serializer_class = QuestionSerializer
+
+    filterset_class = QuestionFilter
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["id", "title", "position", "created_at", "updated_at"]
 
     def get_queryset(self):
         if self.request.user.is_authenticated:

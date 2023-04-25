@@ -78,6 +78,8 @@ class QuestionSerializer(ModelSerializer):
             "bookmark_count",
             "like_type",
             "is_bookmarked",
+            "created_at",
+            "updated_at",
         ]
         read_only_fields = [f for f in fields]
 

@@ -4,7 +4,7 @@ from pytest import fixture
 from rest_framework.test import APIClient
 
 from src.apps.questions.models import Category, Question
-from src.apps.social.models import Bookmark, Like, LikeType
+from src.apps.social.models import Bookmark, Comment, CommentReply, Like, LikeType, Note
 
 User = get_user_model()
 
@@ -112,6 +112,29 @@ def like(user: User, question: Question) -> Like:
 def bookmark(user: User, question: Question) -> Like:
     bookmark = Bookmark.objects.create(user=user, question=question)
     return bookmark
+
+
+@fixture
+def note(user: User, question: Question) -> Note:
+    content = "My first note"
+    note = Note.objects.create(author=user, question=question, content=content)
+    return note
+
+
+@fixture
+def comment(user: User, question: Question) -> Comment:
+    content = "My first comment"
+    comment = Comment.objects.create(author=user, question=question, content=content)
+    return comment
+
+
+@fixture
+def comment_reply(user: User, question: Question, comment: Comment) -> CommentReply:
+    content = "My first comment reply"
+    comment_reply = CommentReply.objects.create(
+        author=user, question=question, comment=comment, content=content
+    )
+    return comment_reply
 
 
 # CLIENT FIXTURES

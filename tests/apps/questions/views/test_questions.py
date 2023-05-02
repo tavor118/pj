@@ -4,7 +4,7 @@ from pytest import fixture, mark
 from rest_framework.test import APIClient
 
 from src.apps.questions.models import Category, Question, ResourceLink
-from src.apps.social.models import Bookmark, Like, LikeType
+from src.apps.social.models import Bookmark, Comment, CommentReply, Like, LikeType, Note
 
 User = get_user_model()
 
@@ -58,6 +58,20 @@ class TestQuestionViewSet:
         bookmark = Bookmark.objects.create(user=user3, question=question)
         return bookmark
 
+    @fixture
+    def comment2(self, user: User, question: Question) -> Comment:
+        content = "My second comment"
+        comment = Comment.objects.create(
+            author=user, question=question, content=content
+        )
+        return comment
+
+    @fixture
+    def note2(self, user2: User, question: Question) -> Note:
+        content = "My second note"
+        note = Note.objects.create(author=user2, question=question, content=content)
+        return note
+
 
 class TestListQuestionView(TestQuestionViewSet):
     def test_list(
@@ -73,6 +87,11 @@ class TestListQuestionView(TestQuestionViewSet):
         like3: Like,
         bookmark: Bookmark,
         bookmark3: Bookmark,
+        note: Note,
+        note2: Note,
+        comment: Comment,
+        comment2: Comment,
+        comment_reply: CommentReply,
         django_assert_num_queries,
     ):
         question3 = Question.objects.create(
@@ -101,6 +120,8 @@ class TestListQuestionView(TestQuestionViewSet):
         assert instance["bookmark_count"] == 2
         assert instance["like_type"] is None
         assert instance["is_bookmarked"] is False
+        assert instance["note_count"] is None
+        assert instance["comment_count"] == 2
 
         client.force_authenticate(user)
 
@@ -116,6 +137,8 @@ class TestListQuestionView(TestQuestionViewSet):
         assert instance["bookmark_count"] == 2
         assert instance["like_type"] == like.like_type
         assert instance["is_bookmarked"] is True
+        assert instance["note_count"] == 1
+        assert instance["comment_count"] == 2
 
 
 class TestDetailQuestionView(TestQuestionViewSet):

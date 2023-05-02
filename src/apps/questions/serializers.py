@@ -62,6 +62,9 @@ class QuestionSerializer(ModelSerializer):
     like_type = CharField(allow_null=True, default=None)
     is_bookmarked = BooleanField(default=False)
 
+    note_count = IntegerField(default=None)
+    comment_count = IntegerField(default=None)
+
     class Meta:
         model = Question
         fields = [
@@ -78,6 +81,8 @@ class QuestionSerializer(ModelSerializer):
             "bookmark_count",
             "like_type",
             "is_bookmarked",
+            "note_count",
+            "comment_count",
             "created_at",
             "updated_at",
         ]

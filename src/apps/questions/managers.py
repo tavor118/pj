@@ -45,6 +45,7 @@ class QuestionManager(Manager):
                 like_count=like_count,
                 dislike_count=dislike_count,
                 bookmark_count=Count("bookmarks", distinct=True),
+                comment_count=Count("comments", distinct=True),
             )
             .prefetch_related("links")
         )
@@ -58,19 +59,22 @@ class QuestionManager(Manager):
     def get_question_list_for_user(self, user: User):
         queryset = self.get_extended_queryset()
 
-        is_bookmarked = Exists(Bookmark.objects.filter(user=user))
-
         like_type = Like.objects.filter(user=user, question=OuterRef("pk")).values(
             "like_type"
         )[:1]
         # we need only the like_type field if like exists
         like_type = Coalesce(Subquery(like_type, output_field=CharField()), Value(None))
 
+        is_bookmarked = Exists(Bookmark.objects.filter(user=user))
+
+        note_count = Count("notes", filter=Q(notes__author=user), distinct=True)
+
         queryset = (
             queryset.annotate(
                 like_type=like_type,
                 # annotate if question is bookmarked by the user
                 is_bookmarked=is_bookmarked,
+                note_count=note_count,
             )
             .order_by("position")
             .all()

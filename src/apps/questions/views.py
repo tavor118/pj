@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -17,8 +18,8 @@ class CategoryViewSet(ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = CategoryFilter
-    filter_backends = [OrderingFilter]
     ordering_fields = ["id", "title", "position"]
 
     def get_queryset(self):
@@ -34,8 +35,8 @@ class QuestionViewSet(ReadOnlyModelViewSet):
     queryset = Question.objects.get_question_list()
     serializer_class = QuestionSerializer
 
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = QuestionFilter
-    filter_backends = [OrderingFilter]
     ordering_fields = ["id", "title", "position", "created_at", "updated_at"]
 
     def get_queryset(self):

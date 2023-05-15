@@ -16,7 +16,7 @@ django-mptt==0.14.0  # nested models
 django-mptt-admin==2.5.0  # nested models
 
 python-redis-lock[django]==4.0.0  # lock resourses
-drf-spectacular==0.26.1  # swagger
+drf-spectacular==0.26.2  # swagger
 sentry-sdk==1.19.1  # logging
 
 django-stubs-ext==0.8.0  # typing

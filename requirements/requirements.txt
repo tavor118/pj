@@ -1,22 +1,23 @@
-Django==4.2
+Django==4.2.1
 djangorestframework==3.14.0
-requests==2.28.2
-psycopg==3.1.8
+requests==2.30.0
+psycopg2-binary==2.9.6
 celery[redis]==5.2.7
 
 
 # third-party apps
-django-filter==23.1  # API filters
-dj-rest-auth[with_social]==3.0.0  # auth
+django-filter==23.2  # API filters
+dj-rest-auth[with_social]==4.0.1  # auth
+django-allauth==0.54.0  # auth
 djangorestframework-simplejwt==5.2.2  # auth
 django-environ==0.10.0  # settings
 django-split-settings==1.2.0  # settings
-django-anymail[mailgun]==9.1  # email
+django-anymail[mailgun]==10.0  # email
 django-mptt==0.14.0  # nested models
 django-mptt-admin==2.5.0  # nested models
 
 python-redis-lock[django]==4.0.0  # lock resourses
 drf-spectacular==0.26.2  # swagger
-sentry-sdk==1.19.1  # logging
+sentry-sdk==1.23.1  # logging
 
-django-stubs-ext==0.8.0  # typing
+django-stubs-ext==4.2.0  # typing

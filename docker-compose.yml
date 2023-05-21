@@ -1,0 +1,47 @@
+version: '3.8'
+
+networks:
+  pj-network:
+    driver: bridge
+
+services:
+  web:
+    build: .
+    # sleep until Postgres is up, run migration, start django development server
+    command: >
+      bash -c "while !</dev/tcp/db/5432; do sleep 1; done;
+      python manage.py migrate;
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ".:/app/"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+    networks:
+      - pj-network
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pythonjunior
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - pj-network
+
+volumes:
+  postgres_data:

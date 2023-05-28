@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
 
 # install dependencies
 COPY /requirements .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels \
-    -r requirements.dev.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r dev.txt
+
 
 ###############
 # FINAL STAGE

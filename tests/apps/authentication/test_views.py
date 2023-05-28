@@ -70,7 +70,7 @@ class TestPasswordResetConfirmView:
         response = client.post(login_url, data=data)
 
         assert response.status_code == 200, response.data
-        assert response.data["access_token"] is not None
+        assert response.data["access"] is not None
 
 
 class TestLoginLogoutView:
@@ -85,7 +85,7 @@ class TestLoginLogoutView:
         response = client.post(self.login_url, data=data)
 
         assert response.status_code == 200, response.data
-        assert response.data["access_token"] is not None
+        assert response.data["access"] is not None
 
         # logout
         response = client.post(self.login_url, data=data)
@@ -126,7 +126,7 @@ class TestPasswordChangeView:
         response = client.post(login_url, data=data)
 
         assert response.status_code == 200, response.data
-        assert response.data["access_token"] is not None
+        assert response.data["access"] is not None
 
 
 class TestRegistrationView:

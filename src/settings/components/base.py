@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "django_filters",
     "mptt",  # nested models
     "django_mptt_admin",  # nested models admin
+    "drf_spectacular",  # swagger
     # local apps
     "src.apps.authentication.apps.AuthConfig",
     "src.apps.core.apps.CoreConfig",
